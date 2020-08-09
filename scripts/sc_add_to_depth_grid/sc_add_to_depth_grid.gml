@@ -1,4 +1,4 @@
-with (obj_draw) {
+with (obj_draw_controller) {
 	//the first obj
 	if (!ds_exists(depth_grid, ds_type_grid)) {
 		//create the depth grid data structure

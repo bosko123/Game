@@ -3,7 +3,10 @@
         "Value": 4278190080
     },
     "option_gameguid": "804e6008-d316-497a-92ee-b31958ee9be1",
-    "option_game_speed": 60
+    "option_game_speed": 120,
+    "option_lastchanged": "09 August 2020 3:34:53",
+    "option_author": "FunnyCinema",
+    "option_sci_usesci": true
 }←be5f1418-b31b-48af-a023-f04cdf6e5121|{
     "textureGroups": {
         "Additions": [

@@ -12,19 +12,19 @@ else {
 
 if (keyboard_check(ord("W")) && !keyboard_check(ord("S"))) {
 	rotation = 1;
-	y_move = -mv_speed;
+	y_move = -mv_speed * global.delta_multiplier;
 }
 if (keyboard_check(ord("S")) && !keyboard_check(ord("W"))) {
 	rotation = 0;
-	y_move = mv_speed;
+	y_move = mv_speed * global.delta_multiplier;
 }
 if (keyboard_check(ord("A")) && !keyboard_check(ord("D"))) {
 	rotation = 2;
-	x_move = -mv_speed;
+	x_move = -mv_speed * global.delta_multiplier;
 }
 if (keyboard_check(ord("D")) && !keyboard_check(ord("A"))) {
 	rotation = 3;
-	x_move = mv_speed;
+	x_move = mv_speed * global.delta_multiplier;
 }
 
 if (x_move == 0 && y_move == 0) {
@@ -32,30 +32,28 @@ if (x_move == 0 && y_move == 0) {
 }
 
 hp_per = int64((current_hp / max_hp) * 100);
-hp_bar_per = int64((health_bar_value / max_hp) * 100);
+var percent = hp_per;
 
-if (health_bar_value != current_hp) {
-	if (!just_updated) {
-		animation_speed = (max_hp - health_bar_value) / max_hp;
-	}
-	
-	if (health_bar_value < current_hp) {
-		health_bar_value++;
+if (hp_bar_per < percent) {
+	if (hp_bar_per + global.delta_multiplier <= percent) {
+		hp_bar_per += global.delta_multiplier;
 	}
 	else {
-		health_bar_value--;
+		hp_bar_per = percent;
 	}
-	just_updated = true;
 }
-else {
-	just_updated = false;
+else if (hp_bar_per > percent) {
+	if (hp_bar_per - global.delta_multiplier >= percent) {
+		hp_bar_per -= global.delta_multiplier;
+	}
+	else {
+		hp_bar_per = percent;
+	}
 }
 
 collisions[0] = "Tile_Collision_64";
-collisions[1] = "Tile_Collision_8";
 
 tile_sizes[0] = 64;
-tile_sizes[1] = 8;
 
 tcx = sc_collision_x_tile(collisions, tile_sizes);
 tcy = sc_collision_y_tile(collisions, tile_sizes);
@@ -77,3 +75,5 @@ if (y_move > 0) {
 else {
 	y += max(tcy, ecy);
 }
+
+sc_regeneration(1, 1);
